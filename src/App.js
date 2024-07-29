@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Node, Tree } from './Util/Tree.js';
 
 function App() {
@@ -9,11 +9,10 @@ function App() {
   const [isBs, setIsBs] = useState(false);
   const [lock, setLock] = useState(false);
 
-  const change = e => {
+  const change = useCallback(e => {
     const start = e.target.selectionStart;
-    const end = e.target.selectionEnd;
-
-    if(lock) {
+    
+    if(lock || /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(e.target.value.substring(start-1, start))) {
       setLock(false);
       return;
     }
@@ -28,24 +27,30 @@ function App() {
       return;
     }
 
-    setPoint(UnReTree.addChild(point, new Node({
-      char : e.target.value.substring(start-1, start),
-      index : start-1
-    }, point.getChildren().length)));
-    console.log(e.target.value.substring(start-1, start));
-    //e.target.setSelectionRange(start-1, start-1);
-  };
+    const char = e.target.value.substring(start-1, start);
 
-  const keyDown = e => {
-    console.log(e.target.selectionStart, e.target.selectionEnd, e.key);
-    e.target.selectionStart !== e.target.selectionEnd && setLock(true);
-    e.key === 'Backspace' && e.target.selectionStart > 0 && setIsBs(true);
+    setPoint(
+      point.getChildren().map(e => e.getInfo().char).includes(char) ?
+      point.getChildren().find(e => e.getInfo().char === char)
+      :
+      UnReTree.addChild(point, new Node({
+        char : char,
+        index : start-1
+      }, point.getChildren().length))
+    );
+  }, [point, lock, isBs]);
+
+  const keyDown = useCallback(e => {
+    const start = e.target.selectionStart;
+    console.log(start, e.target.selectionEnd, e.key, e.key === 'Process');
+    (start !== e.target.selectionEnd || e.key === 'Process') && setLock(true);
+    e.key === 'Backspace' && start > 0 && setIsBs(true);
 
     if(e.ctrlKey){
       e.preventDefault();
       const ret = [];
+
       const func = node => {
-        if(node === null) return;
         ret.push(node.getInfo());
         node.getParent() !== null && node.getParent().getInfo() !== "" && func(node.getParent());
       };
@@ -57,35 +62,38 @@ function App() {
         return a
       }, []).join("");
 
-      if(e.key === 'x'){
-        if(!point.getChildren().length) return;
-        func(point.getChildren()[0]);
-
-        setContents(combine(ret));
-        setPoint(point.getChildren()[0]);
-        return;
-      }
-      else if(e.key === 'z'){
-        if(point.getParent() === null) return;
-        func(point.getParent());
-        
-        setContents(combine(ret));
-        return;
-      }
-      else if(e.key === 'ArrowRight') {
-        const node = point.getParent().getChildren()[(point.getId()+1) % point.getParent().getChildren().length];
-        console.log(node, (point.getId()+1) % point.getParent().getChildren().length);
+      const settingContents = node => {
+        if(!node) return;
         func(node);
-
         setContents(combine(ret));
-        setPoint(node)
+        setPoint(node);
+      }
+
+      switch(e.key) {
+        case 'r' :
+          window.location.reload();
+          break;
+        case 'x' :
+          settingContents(point.getChildren()[0]);
+          break;
+        case 'z' :
+          settingContents(point.getParent());
+          break;
+        case 'ArrowRight' :
+          settingContents(point.getParent().getChildren()[(point.getId()+1) % point.getParent().getChildren().length]);
+          break;
+        case 'ArrowLeft' :
+          settingContents(point.getParent().getChildren().at((point.getId()-1) % point.getParent().getChildren().length));
+          break;
+        default :
+          break;
       }
     }
-  }
+  }, [point]);
 
   useEffect(() => {
-    console.log(UnReTree, point);
-  }, [point]);
+    console.log(UnReTree.getNodes().map(e => e.getInfo()), point);
+  });
 
 
   return (
@@ -98,8 +106,9 @@ function App() {
       
       <div id="ac"> All Case </div>
       {
-        UnReTree.getLeafNodes().map(e => {
+        UnReTree.getLeafNodes().map((e,i) => {
           const ret = [];
+
           const func = node => {
             if(node === null) return;
             ret.push(node.getInfo());
@@ -116,7 +125,7 @@ function App() {
           func(e);
 
           return (
-            <div> {combine(ret)} </div>
+            <div key={i}> {combine(ret)} </div>
           )
         })
       }
