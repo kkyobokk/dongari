@@ -96,7 +96,7 @@ function App() {
       value = {contents}
       />
       
-      <div> All Case </div>
+      <div id="ac"> All Case </div>
       {
         UnReTree.getLeafNodes().map(e => {
           const ret = [];

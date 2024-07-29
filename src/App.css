@@ -32,3 +32,7 @@ body  {
 .text::spelling-error {
   text-decoration : none;
 }
+
+#ac {
+  border-bottom: 1px #000000 solid;
+}
