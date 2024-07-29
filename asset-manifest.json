@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/dongari/static/css/main.35859ca7.css",
-    "main.js": "/dongari/static/js/main.eeb87b23.js",
+    "main.css": "/dongari/static/css/main.acdc40c9.css",
+    "main.js": "/dongari/static/js/main.45d2d2c1.js",
     "static/js/453.419a5d54.chunk.js": "/dongari/static/js/453.419a5d54.chunk.js",
     "index.html": "/dongari/index.html",
-    "main.35859ca7.css.map": "/dongari/static/css/main.35859ca7.css.map",
-    "main.eeb87b23.js.map": "/dongari/static/js/main.eeb87b23.js.map",
+    "main.acdc40c9.css.map": "/dongari/static/css/main.acdc40c9.css.map",
+    "main.45d2d2c1.js.map": "/dongari/static/js/main.45d2d2c1.js.map",
     "453.419a5d54.chunk.js.map": "/dongari/static/js/453.419a5d54.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.35859ca7.css",
-    "static/js/main.eeb87b23.js"
+    "static/css/main.acdc40c9.css",
+    "static/js/main.45d2d2c1.js"
   ]
 }
