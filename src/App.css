@@ -1,0 +1,34 @@
+#root {
+  width : 100%;
+  height : 100%;
+}
+
+html  {
+  width : 100%;
+  height : 100%;
+}
+
+body  {
+  width : 100%;
+  height : 100%; 
+}
+
+.HIGH {
+  text-align: center;
+  width : 100%;
+  height : 100%;
+}
+
+.text {
+  margin : 30px auto;
+  resize : none;
+  min-width : 400px;
+  width : 80%;
+  height : 50%;
+  padding : 5px;
+  font-size : 20px;
+}
+
+.text::spelling-error {
+  text-decoration : none;
+}
