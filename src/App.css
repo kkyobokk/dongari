@@ -17,10 +17,11 @@ body  {
   text-align: center;
   width : 100%;
   height : 100%;
+
 }
 
 .text {
-  margin : 30px auto;
+  margin : 10px auto;
   resize : none;
   min-width : 400px;
   width : 80%;
@@ -35,4 +36,11 @@ body  {
 
 #ac {
   border-bottom: 1px #000000 solid;
+}
+
+#keys {
+  text-align : left;
+  margin : 0 auto;
+  margin-top : 10px;
+  width : 80%;
 }

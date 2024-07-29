@@ -4,7 +4,7 @@ import { Node, Tree } from './Util/Tree.js';
 
 function App() {
   const [contents, setContents] = useState("");
-  const [UnReTree, setUnReTree] = useState(new Tree(new Node("", 'header')));
+  const [UnReTree] = useState(new Tree(new Node("", 'header')));
   const [point, setPoint] = useState(UnReTree.getRoot());
   const [isBs, setIsBs] = useState(false);
   const [lock, setLock] = useState(false);
@@ -98,13 +98,19 @@ function App() {
 
   return (
     <div className="HIGH">
+      <div id="keys"> 
+        Ctrl + z : 되돌리기 <br/>
+        Ctrl + x : 되돌리기 취소 <br/>
+        Ctrl + -&gt; / &lt;- : 경로 이동
+      </div>
+
       <textarea className="text"
       onChange={change}
       onKeyDown={keyDown}
       value = {contents}
       />
       
-      <div id="ac"> All Case </div>
+      <div id="ac"> All Last Case </div>
       {
         UnReTree.getLeafNodes().map((e,i) => {
           const ret = [];
